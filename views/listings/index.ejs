@@ -5,21 +5,26 @@
         <button>Create New Lisintgs</button>
     </form> -->
 
-    <% for(let listing of allListings) { %>
-    <div class="card" style="width: 18rem;">
-        <img src="..." class="card-img-top" alt="...">
-        <div class="card-body">
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div>
-      </div>
-      <% } %>
-      
-    <ul>
+     <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
         <% for(let listing of allListings) { %>
-            <li><a href="/listings/<%= listing._id %>"><%= listing.title %></a></li>
-        <% } %>
-    </ul>
+            <a href="/listings/<%= listing._id %>" class="listing-link">
+                <div class="card col">
+                    <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" style="height: 20rem;">
+                    <div class="card-img-overlay"></div>
+                    <div class="card-body">
+                      <p class="card-text">
+                        <b><%= listing.title %></b><br>
+                        &#8377; <%= Number(listing.price).toLocaleString( { style: 'currency',currency: 'INR' }) %> / night
+                    </p>
+                    </div>
+                  </div>
+                  <% } %>
+            </a>
+           
+     </div>
 </body>
+
+      
 
 
 
