@@ -7,7 +7,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const Expresserror = require("./utils/Expresserror.js");
-
+const { listingSchema } = require("./schema.js");
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 
@@ -66,20 +66,12 @@ app.get("/listings/:id",  wrapAsync(async (req, res) => {
 
 //create Route
 app.post("/listings", wrapAsync (async(req, res, next) => {
-  if (!req.body.listing) {
-    throw new Expresserror(400, "Send valid data for listing");
+  let result = listingSchema.validate(req.body);
+  console.log(result);
+  if(result.error) {
+    throw new Expresserror(400, result.error);
   }
-  const  newListing = new Listing(req.body.listing);
-  if(!newListing.title) {
-    throw new Expresserror(400, "Title is missing!");
-  }
-  if(!newListing.description) {
-    throw new Expresserror(400, "Description is missing");
-  }
-  if(!newListing.location) {
-    throw new Expresserror(400, "Location is missing");
-  }
-
+  const newListing = new Listing(req.body.listing);
   await newListing.save();
   res.redirect("/listings");
   }
