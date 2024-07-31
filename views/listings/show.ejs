@@ -24,28 +24,35 @@
             <div class="col-8 offset-3 mb-3">
                 <h4>Leave a Review</h4>
                 <hr />
-                <form action="/listings/<%= listing.id %>/reviews" method="POST" novalidate class="needs-validation">
+                <form action="/listings/<%= listing._id %>/reviews" method="POST" novalidate class="needs-validation">
                     <div class="mb-3 mt-3">
                         <label for="rating" class="form-label">Rating</label>
-                        <input type="range" min="1" max="5" id="raitng" name="review[rating]" class="form-range">
+                        <input type="range" min="1" max="5" id="rating" name="review[rating]" class="form-range" required>
                     </div>
                     <div class="mb-3 mt-3">
                         <label for="comment" class="form-label">Comments</label>
                         <textarea
-                        name="review[comment]"
-                        id="comment"
-                        cols="30"
-                        rows="5"
-                        class="form-control"
-                        required
+                            name="review[comment]"
+                            id="comment"
+                            cols="30"
+                            rows="5"
+                            class="form-control"
+                            required
                         ></textarea>
                         <div class="invalid-feedback">
                             Please add some comments for review
                         </div>
-    
                     </div>
                     <button class="btn btn-outline-dark">Submit</button>
                 </form>
+                      
+                <hr />
+                <h4>All Reviews</h4>
+                <ul>
+                    <% for(review of listing.reviews) { %>
+                    <li> <%= review.comment%> , <%= review.rating %>Stars</li>
+                <% } %>
+                </ul>
             </div>
     </div>
 </div>

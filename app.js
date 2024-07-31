@@ -41,7 +41,7 @@ app.get("/", (req, res) => {
 const validateListing = (req, res, next) => {
   let {error} = listingSchema.validate(req.body);
   if(error) {
-    let  errMsg = listingSchema.validate(req.body);
+    let  errMsg = error.details.map((el) => el.message).join(",");
     throw new Expresserror(400, errMsg);
   } else {
     next();
@@ -49,14 +49,15 @@ const validateListing = (req, res, next) => {
 };
 
 const validateReview = (req, res, next) => {
-  let {error} = ReviewSchema.validate(req.body);
-  if(error) {
-    let  errMsg = listingSchema.validate(req.body);
-    throw new Expresserror(400, errMsg);
+  let { error } = reviewSchema.validate(req.body);
+  if (error) {
+      let errMsg = error.details.map((el) => el.message).join(",");
+      throw new Expresserror(400, errMsg);
   } else {
-    next();
+      next();
   }
 };
+
 
 //Index Route
 app.get("/listings",wrapAsync(async (req, res) => {
@@ -73,7 +74,7 @@ app.get("/listings/new", async(req, res) => {
 //Show Route
 app.get("/listings/:id",  wrapAsync(async (req, res) => {
   let {id} = req.params;
-  const listing = await Listing.findById(id);
+  const listing = await Listing.findById(id).populate("reviews");
   if (listing && typeof listing.price === 'number') {
     // Ensure the price is a number and format it
     listing.formattedPrice = listing.price.toLocaleString("en-IN", {
@@ -117,16 +118,18 @@ app.delete("/listings/:id", wrapAsync(async (req, res) => {
 }));
 
 //Reviews
-app.post("/listings/:id/reviews", validateReview, wrapAsync(async(req, res) => {
+app.post("/listings/:id/reviews", validateReview, wrapAsync(async (req, res) => {
+  console.log(req.body); // Log the entire request body
   let listing = await Listing.findById(req.params.id);
   let newReview = new Review(req.body.review);
   listing.reviews.push(newReview);
 
   await newReview.save();
   await listing.save();
-  
+
   res.redirect(`/listings/${listing._id}`);
 }));
+
 
 app.all("*", (req, res, next) => {
   next(new Expresserror(404,"Page Not Found!"));
