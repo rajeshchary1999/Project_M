@@ -65,15 +65,15 @@ app.use((req, res, next) => {
   next();
 })
 
-app.get("/demouser", async (req, res) => {
-  let fakeuser = new User({
-    email: "student@gmail.com",
-    username: "delta-student"
-  });
+// app.get("/demouser", async (req, res) => {
+//   let fakeuser = new User({
+//     email: "student@gmail.com",
+//     username: "delta-student"
+//   });
 
-  let registeruser = await User.register(fakeuser, "hello");
-  res.send(registeruser);
-})
+//   let registeruser = await User.register(fakeuser, "hello");
+//   res.send(registeruser);
+// })
 
 // Ensure the correct order of routes
 app.use("/listings", listings);
