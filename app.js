@@ -13,6 +13,8 @@ const User = require("./models/user.js");
 
 const listings = require("./routes/listing.js");
 const reviews = require("./routes/review.js");
+const userRouter = require("./routes/user.js");
+
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 
@@ -76,6 +78,8 @@ app.get("/demouser", async (req, res) => {
 // Ensure the correct order of routes
 app.use("/listings", listings);
 app.use("/listings/:id/reviews", reviews);
+app.use("/", userRouter);
+
 
 // Handle 404 errors for all other routes
 app.all("*", (req, res, next) => {
