@@ -28,8 +28,4 @@ router.route("/:id")
 // Edit Route
 router.get("/:id/edit", isLoggedIn,isOwner, wrapAsync(listingControllers.renderEdit));
 
-
-
-
-
 module.exports = router;
