@@ -9,7 +9,8 @@ console.log('Listing Schema:', listingSchema); // Debugging the import
 
 const listingControllers = require("../controllers/listing.js");
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' })
+const { storage } = require("../cloudConfig.js");
+const upload = multer({ storage });
 
 router.route("/")
 .get(
