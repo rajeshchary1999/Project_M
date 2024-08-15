@@ -8,7 +8,7 @@ const map = new mapboxgl.Map({
 
 
 
-const marker = new mapboxgl.Marker({ color: "red"})
+const marker = new mapboxgl.Marker()
 .setLngLat(listing.geometry.coordinates)
 .setPopup(new mapboxgl.Popup({offset: popupOffsets})
 .setHTML(
