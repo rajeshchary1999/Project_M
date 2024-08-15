@@ -1,7 +1,11 @@
 <% layout("/layouts/boilerplate.ejs") %>
 <script>
     const mapToken = "<%= process.env.MAP_TOKEN %>";
+    const listing =  <%- JSON.stringify(listing) %>;
+    
+    //console.log("Coordinates:", coordinates); // Debug to see the coordinates
 </script>
+
 <div class="row mt-3">
     <div class="col-8 offset-2">
         <h3><%= listing.title %></h3>
@@ -31,9 +35,9 @@
             
 
            
-            <div class="col-6 offset-2">
+            <div class="col-6 offset-2 mb-3">
                 <% if(currUser) {%>
-                    <br />
+                    <hr />
                 <h4>Leave a Review</h4>
                 <hr />
                 <form action="/listings/<%= listing._id %>/reviews" method="POST" novalidate class="needs-validation">
@@ -90,28 +94,23 @@
                                 
                                 </p>
                                 <p class="card-text"><%= review.comment %></p>
-                            </div>
+                            
                             <form class="mb-3" method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
                                 <button class="btn btn-sm btn-dark">Delete</button>
                             </form>
                         </div>
+                    </div>
                    <% } %>
                 </div>
                 <% } %>
             </div>
-            <!-- <div class="col-6 offset-3 mb-3">
+            <div class="col-6 offset-3 mb-3">
                 <h3>Where you'll be</h3>
                 <div id="map"></div>
-            </div> -->
-    </div>
-    <div class="col-6 offset-2">
-        <h3>Where you'll be</h3>
-        <div id="map"></div>
+            </div>
     </div>
 </div>
-
-<script src="/js/map.js"></script>
-<br />
+/<script src="/js/map.js"></script>
 
 
 

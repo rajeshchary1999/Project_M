@@ -109,5 +109,5 @@ add-btn {
 /*Map */
 #map { 
     height: 400px;
-    width: vh;
- };
+    width: 80vh;
+};
