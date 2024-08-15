@@ -46,7 +46,13 @@ module.exports.createlis = async (req, res, next) => {
 module.exports.renderEdit = async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
-    res.render("listings/edit.ejs", { listing });
+    if (!listing) {
+      req.flash("error", "Listing you requested for does not exist");
+      res.redirect("/listings");
+    }
+    let originalImageUrl = listing.image.url;
+    originalImageUrl = originalImageUrl.replace("/upload", "/upload/,w_250");
+    res.render("listings/edit.ejs", { listing, originalImageUrl });
 };
 
 module.exports.updatelis = async (req, res) => {
